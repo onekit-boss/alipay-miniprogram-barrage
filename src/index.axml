@@ -1,0 +1,20 @@
+<onekit-view a:if="{{renderingMode === 'canvas'}}" onekit-class="barrage-area" onekit-style="z-index: {{zIndex}};">
+  <onekit-canvas type="2d" onekit-id="weui-canvas" onekit-style="width: 100%; height: 100%;"></onekit-canvas>
+</onekit-view>
+
+<onekit-view a:else onekit-class="barrage-area" onekit-style="opacity: {{alpha}}; font: {{font}}; padding: {{padding}}; z-index: {{zIndex}};">
+  <block a:for="{{tunnels}}" a:key='tunnelId' a:for-item='tunnel' a:for-index='tunnelId'>
+    <onekit-view onekit-class="barrage-tunnel" onekit-style="height: {{tunnel.height}}px; border-top-width: {{tunnelShow ? 1 : 0}}px">
+      <onekit-view onekit-class="tunnel-tips" hidden="{{!tunnelShow}}">轨道{{tunnelId}}</onekit-view>
+      <block a:for="{{tunnel.bullets}}" a:key='bulletId' a:for-item='bullet' a:for-index='bulletId'>
+        <onekit-view onekit-class="bullet-item {{bullet.duration > 0 ? 'bullet-move' : ''}} {{bullet.paused ? 'paused' : ''}}" onekit-style="color: {{bullet.paused ? '#fff' : bullet.color}}; height: {{tunnel.height}}px; line-height: {{tunnel.height}}px; animation-duration: {{bullet.duration}}s; animation-play-state: {{bullet.paused ? 'paused' : 'running'}}" data-tunnelid="{{tunnelId}}" data-bulletid="{{bulletId}}" onAnimationend="onAnimationend" onTap="onTapBullet">
+          <onekit-image a:if="{{bullet.image.head}}" onekit-class="bullet-item_img" onekit-style="width: {{bullet.image.head.width || fontSize}}px; height: {{bullet.image.head.height}}px; margin-right: {{bullet.image.head.gap || 4}}px;" mode="aspectFit" src="{{bullet.image.head.src}}"></onekit-image>
+          <onekit-view onekit-class="bullet-item_text" onekit-style="opacity: 1;">
+            <onekit-text>{{bullet.content}}</onekit-text>
+          </onekit-view>
+          <onekit-image a:if="{{bullet.image.tail}}" onekit-class="bullet-item_img" onekit-style="width: {{bullet.image.tail.width || fontSize}}px; height: {{bullet.image.tail.height}}px; margin-left: {{bullet.image.tail.gap || 4}}px;" mode="aspectFit" src="{{bullet.image.tail.src}}"></onekit-image>
+        </onekit-view>
+      </block>
+    </onekit-view>
+  </block>
+</onekit-view>
